@@ -1,36 +1,39 @@
-//
-//  SwiftCoreDataRelationshipReproTests.swift
-//  SwiftCoreDataRelationshipReproTests
-//
-//  Created by Wolf Rentzsch on 7/10/14.
-//  Copyright (c) 2014 Jonathan 'Wolf' Rentzsch. All rights reserved.
-//
-
 import Cocoa
 import XCTest
+import SwiftCoreDataRelationshipRepro
+
+let USE_PERSON_CLASS = false
 
 class SwiftCoreDataRelationshipReproTests: XCTestCase {
-    
-    override func setUp() {
-        super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-    }
-    
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-        super.tearDown()
-    }
-    
     func testExample() {
-        // This is an example of a functional test case.
-        XCTAssert(true, "Pass")
-    }
-    
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measureBlock() {
-            // Put the code you want to measure the time of here.
+        let moc = newMoc()
+        
+        if USE_PERSON_CLASS {
+            NSManagedObject(
+                entity: NSEntityDescription.entityForName("Person", inManagedObjectContext: moc),
+                insertIntoManagedObjectContext: moc)
+            XCTAssert(moc.save(nil), "")
+        } else {
+            NSManagedObject(
+                entity: NSEntityDescription.entityForName("Pet", inManagedObjectContext: moc),
+                insertIntoManagedObjectContext: moc)
         }
+        
+        //
     }
     
+    func newMoc() -> (NSManagedObjectContext) {
+        let momURL : NSURL = NSBundle.mainBundle().URLForResource("SwiftCoreDataRelationshipRepro", withExtension: "momd")
+        let mom : NSManagedObjectModel = NSManagedObjectModel(contentsOfURL: momURL)
+        let psc : NSPersistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: mom);
+        let ps : NSPersistentStore = psc.addPersistentStoreWithType(
+            NSInMemoryStoreType,
+            configuration: nil,
+            URL: nil,
+            options: nil,
+            error: nil)
+        let moc : NSManagedObjectContext = NSManagedObjectContext()
+        moc.persistentStoreCoordinator = psc
+        return moc
+    }
 }
