@@ -2,24 +2,23 @@ import Cocoa
 import XCTest
 import SwiftCoreDataRelationshipRepro
 
-let USE_PERSON_CLASS = false
+let EXCERCISE_TO_ONE = true
 
 class SwiftCoreDataRelationshipReproTests: XCTestCase {
-    func testExample() {
+    func testSwift() {
         let moc = newMoc()
         
-        if USE_PERSON_CLASS {
-            NSManagedObject(
-                entity: NSEntityDescription.entityForName("Person", inManagedObjectContext: moc),
-                insertIntoManagedObjectContext: moc)
-            XCTAssert(moc.save(nil), "")
-        } else {
+        if EXCERCISE_TO_ONE {
+            // This fails:
             NSManagedObject(
                 entity: NSEntityDescription.entityForName("Pet", inManagedObjectContext: moc),
                 insertIntoManagedObjectContext: moc)
+        } else {
+            // This works:
+            NSManagedObject(
+                entity: NSEntityDescription.entityForName("Person", inManagedObjectContext: moc),
+                insertIntoManagedObjectContext: moc)
         }
-        
-        //
     }
     
     func newMoc() -> (NSManagedObjectContext) {

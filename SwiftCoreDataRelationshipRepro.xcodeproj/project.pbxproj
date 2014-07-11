@@ -13,6 +13,7 @@
 		796DBE3B196F3092004EAA15 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 796DBE3A196F3092004EAA15 /* Images.xcassets */; };
 		796DBE3E196F3092004EAA15 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 796DBE3C196F3092004EAA15 /* MainMenu.xib */; };
 		796DBE4A196F3092004EAA15 /* SwiftCoreDataRelationshipReproTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796DBE49196F3092004EAA15 /* SwiftCoreDataRelationshipReproTests.swift */; };
+		796DBE83196F70AE004EAA15 /* ObjCCoreDataRelationshipReproTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 796DBE82196F70AE004EAA15 /* ObjCCoreDataRelationshipReproTests.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,6 +37,7 @@
 		796DBE43196F3092004EAA15 /* SwiftCoreDataRelationshipReproTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SwiftCoreDataRelationshipReproTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		796DBE48196F3092004EAA15 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		796DBE49196F3092004EAA15 /* SwiftCoreDataRelationshipReproTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftCoreDataRelationshipReproTests.swift; sourceTree = "<group>"; };
+		796DBE82196F70AE004EAA15 /* ObjCCoreDataRelationshipReproTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ObjCCoreDataRelationshipReproTests.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +101,7 @@
 			isa = PBXGroup;
 			children = (
 				796DBE49196F3092004EAA15 /* SwiftCoreDataRelationshipReproTests.swift */,
+				796DBE82196F70AE004EAA15 /* ObjCCoreDataRelationshipReproTests.m */,
 				796DBE47196F3092004EAA15 /* Supporting Files */,
 			);
 			path = SwiftCoreDataRelationshipReproTests;
@@ -222,6 +225,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				796DBE4A196F3092004EAA15 /* SwiftCoreDataRelationshipReproTests.swift in Sources */,
+				796DBE83196F70AE004EAA15 /* ObjCCoreDataRelationshipReproTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -350,6 +354,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/SwiftCoreDataRelationshipRepro.app/Contents/MacOS/SwiftCoreDataRelationshipRepro";
+				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
@@ -362,6 +367,7 @@
 				INFOPLIST_FILE = SwiftCoreDataRelationshipReproTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 			};
 			name = Debug;
@@ -370,6 +376,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/SwiftCoreDataRelationshipRepro.app/Contents/MacOS/SwiftCoreDataRelationshipRepro";
+				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
