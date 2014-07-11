@@ -17,16 +17,11 @@ class SwiftCoreDataRelationshipReproTests: XCTestCase {
     func testSwiftToOne() {
         let moc = newMoc()
         
-        let personED = NSEntityDescription.entityForName("Person", inManagedObjectContext: moc)
-        println("^^Person: \(personED)")
-        
-        let petID = NSEntityDescription.entityForName("Pet", inManagedObjectContext: moc)
-        println("^^Pet: \(petID)")
+        // This works:
+        XCTAssertNotNil(NSEntityDescription.entityForName("Person", inManagedObjectContext: moc));
         
         // This fails:
-        NSManagedObject(
-            entity: NSEntityDescription.entityForName("Pet", inManagedObjectContext: moc),
-            insertIntoManagedObjectContext: moc)
+        XCTAssertNotNil(NSEntityDescription.entityForName("Pet", inManagedObjectContext: moc));
     }
     
     func newMoc() -> (NSManagedObjectContext) {
