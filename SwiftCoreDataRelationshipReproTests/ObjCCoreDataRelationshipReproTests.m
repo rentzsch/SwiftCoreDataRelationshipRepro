@@ -6,23 +6,27 @@
 
 @implementation ObjCCoreDataRelationshipReproTests
 
-- (void)testObjc {
+- (void)testObjcToOneAndToMany {
     NSManagedObjectContext *moc = [self newMoc];
     
+    // All of this works:
     NSManagedObject *person = [[NSManagedObject alloc] initWithEntity:[NSEntityDescription entityForName:@"Person" inManagedObjectContext:moc]
                                        insertIntoManagedObjectContext:moc];
     [person setValue:@"Fred Flintstone" forKey:@"name"];
     
+    //
     NSManagedObject *dino = [[NSManagedObject alloc] initWithEntity:[NSEntityDescription entityForName:@"Pet" inManagedObjectContext:moc]
                                        insertIntoManagedObjectContext:moc];
     [dino setValue:@"Dino" forKey:@"name"];
     [dino setValue:person forKey:@"owner"];
     
+    //
     NSManagedObject *babypuss = [[NSManagedObject alloc] initWithEntity:[NSEntityDescription entityForName:@"Pet" inManagedObjectContext:moc]
                                        insertIntoManagedObjectContext:moc];
     [dino setValue:@"Baby Puss" forKey:@"name"];
     [babypuss setValue:person forKey:@"owner"];
     
+    //
     XCTAssert([moc save:nil], @"");
 }
 

@@ -2,23 +2,23 @@ import Cocoa
 import XCTest
 import SwiftCoreDataRelationshipRepro
 
-let EXCERCISE_TO_ONE = true
-
 class SwiftCoreDataRelationshipReproTests: XCTestCase {
-    func testSwift() {
+    func testSwiftToMany() {
         let moc = newMoc()
         
-        if EXCERCISE_TO_ONE {
-            // This fails:
-            NSManagedObject(
-                entity: NSEntityDescription.entityForName("Pet", inManagedObjectContext: moc),
-                insertIntoManagedObjectContext: moc)
-        } else {
-            // This works:
-            NSManagedObject(
-                entity: NSEntityDescription.entityForName("Person", inManagedObjectContext: moc),
-                insertIntoManagedObjectContext: moc)
-        }
+        // This works:
+        NSManagedObject(
+            entity: NSEntityDescription.entityForName("Person", inManagedObjectContext: moc),
+            insertIntoManagedObjectContext: moc)
+    }
+    
+    func testSwiftToOne() {
+        let moc = newMoc()
+        
+        // This fails:
+        NSManagedObject(
+            entity: NSEntityDescription.entityForName("Pet", inManagedObjectContext: moc),
+            insertIntoManagedObjectContext: moc)
     }
     
     func newMoc() -> (NSManagedObjectContext) {
