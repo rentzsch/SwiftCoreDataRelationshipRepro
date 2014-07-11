@@ -8,7 +8,7 @@ class SwiftCoreDataRelationshipReproTests: XCTestCase {
         
         // This works:
         NSManagedObject(
-            entity: NSEntityDescription.entityForName("Person", inManagedObjectContext: moc),
+            entity: NSEntityDescription.entityForName("Person", inManagedObjectContext:moc),
             insertIntoManagedObjectContext: moc)
         
         XCTAssert(moc.save(nil), "");
@@ -18,10 +18,38 @@ class SwiftCoreDataRelationshipReproTests: XCTestCase {
         let moc = newMoc()
         
         // This works:
-        XCTAssertNotNil(NSEntityDescription.entityForName("Person", inManagedObjectContext: moc));
+        XCTAssertNotNil(NSEntityDescription.entityForName("Person", inManagedObjectContext:moc));
         
-        // This fails:
-        XCTAssertNotNil(NSEntityDescription.entityForName("Pet", inManagedObjectContext: moc));
+        // This fails on 10.9.3 and 10.9.4 but works on 10.10:
+        XCTAssertNotNil(NSEntityDescription.entityForName("Pet", inManagedObjectContext:moc));
+    }
+    
+    func testSwiftToOneAndToMany() {
+        // This fails on 10.9.3 and 10.9.4 but works on 10.10:
+        
+        let moc = newMoc()
+        
+        let person : NSManagedObject = NSManagedObject(
+            entity: NSEntityDescription.entityForName("Person", inManagedObjectContext:moc),
+            insertIntoManagedObjectContext: moc)
+        person.setValue("Fred Flintstone", forKey:"name")
+        
+        //
+        let petEntityDesc = NSEntityDescription.entityForName("Pet", inManagedObjectContext:moc)
+        
+        let dino : NSManagedObject = NSManagedObject(
+            entity:petEntityDesc,
+            insertIntoManagedObjectContext:moc)
+        dino.setValue("Dino", forKey:"name")
+        dino.setValue(person, forKey:"owner")
+        
+        let babypuss : NSManagedObject = NSManagedObject(
+            entity:petEntityDesc,
+            insertIntoManagedObjectContext:moc)
+        dino.setValue("Baby Puss", forKey:"name")
+        dino.setValue(person, forKey:"owner")
+        
+        XCTAssert(moc.save(nil), "");
     }
     
     func newMoc() -> (NSManagedObjectContext) {
