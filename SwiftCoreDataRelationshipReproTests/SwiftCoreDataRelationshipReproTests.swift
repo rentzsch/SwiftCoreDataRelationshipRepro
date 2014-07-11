@@ -19,6 +19,17 @@ class SwiftCoreDataRelationshipReproTests: XCTestCase {
         
         // This works:
         XCTAssertNotNil(NSEntityDescription.entityForName("Person", inManagedObjectContext:moc));
+
+        // This works
+        let entities = moc.persistentStoreCoordinator.managedObjectModel.entitiesByName;
+        let keys = Array(entities.keys)
+        var petDescription : NSEntityDescription?
+        for (key, value) in entities {
+            if key == "Pet" {
+                petDescription = value as? NSEntityDescription
+            }
+        }
+        XCTAssertNotNil(petDescription);
         
         // This fails on 10.9.3 and 10.9.4 but works on 10.10:
         XCTAssertNotNil(NSEntityDescription.entityForName("Pet", inManagedObjectContext:moc));
