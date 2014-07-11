@@ -10,10 +10,18 @@ class SwiftCoreDataRelationshipReproTests: XCTestCase {
         NSManagedObject(
             entity: NSEntityDescription.entityForName("Person", inManagedObjectContext: moc),
             insertIntoManagedObjectContext: moc)
+        
+        XCTAssert(moc.save(nil), "");
     }
     
     func testSwiftToOne() {
         let moc = newMoc()
+        
+        let personED = NSEntityDescription.entityForName("Person", inManagedObjectContext: moc)
+        println("^^Person: \(personED)")
+        
+        let petID = NSEntityDescription.entityForName("Pet", inManagedObjectContext: moc)
+        println("^^Pet: \(petID)")
         
         // This fails:
         NSManagedObject(
