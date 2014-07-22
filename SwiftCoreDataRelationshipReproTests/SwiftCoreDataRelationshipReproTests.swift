@@ -2,6 +2,20 @@ import Cocoa
 import XCTest
 import SwiftCoreDataRelationshipRepro
 
+extension NSEntityDescription {
+    class func entityForName_workaround(entityName: String!, inManagedObjectContext context: NSManagedObjectContext!) -> NSEntityDescription! {
+        let entities = context.persistentStoreCoordinator.managedObjectModel.entitiesByName;
+        let keys = Array(entities.keys)
+        var result : NSEntityDescription?
+        for (key, value) in entities {
+            if key == entityName {
+                result = value as? NSEntityDescription
+            }
+        }
+        return result
+    }
+}
+
 class SwiftCoreDataRelationshipReproTests: XCTestCase {
     func testSwiftToMany() {
         let moc = newMoc()
@@ -14,13 +28,23 @@ class SwiftCoreDataRelationshipReproTests: XCTestCase {
         XCTAssert(moc.save(nil), "");
     }
     
-    func testSwiftToOne() {
+    func testSwiftToOneNormal() {
         let moc = newMoc()
         
         // This works:
         XCTAssertNotNil(NSEntityDescription.entityForName("Person", inManagedObjectContext:moc));
 
-        // This works
+        // This fails on 10.9.3 and 10.9.4 but works on 10.10:
+        XCTAssertNotNil(NSEntityDescription.entityForName("Pet", inManagedObjectContext:moc));
+    }
+    
+    func testSwiftToOneWithDirectWorkaround() {
+        let moc = newMoc()
+        
+        // This works:
+        XCTAssertNotNil(NSEntityDescription.entityForName("Person", inManagedObjectContext:moc));
+
+        // This works on 10.9.3 and 10.10:
         let entities = moc.persistentStoreCoordinator.managedObjectModel.entitiesByName;
         let keys = Array(entities.keys)
         var petDescription : NSEntityDescription?
@@ -30,9 +54,16 @@ class SwiftCoreDataRelationshipReproTests: XCTestCase {
             }
         }
         XCTAssertNotNil(petDescription);
+    }
+    
+    func testSwiftToOneWithExtensionWorkaround() {
+        let moc = newMoc()
         
-        // This fails on 10.9.3 and 10.9.4 but works on 10.10:
-        XCTAssertNotNil(NSEntityDescription.entityForName("Pet", inManagedObjectContext:moc));
+        // This works:
+        XCTAssertNotNil(NSEntityDescription.entityForName_workaround("Person", inManagedObjectContext:moc));
+
+        // This works on 10.9.3 and 10.10:
+        XCTAssertNotNil(NSEntityDescription.entityForName_workaround("Pet", inManagedObjectContext:moc));
     }
     
     func testSwiftToOneAndToMany() {
@@ -41,12 +72,12 @@ class SwiftCoreDataRelationshipReproTests: XCTestCase {
         let moc = newMoc()
         
         let person : NSManagedObject = NSManagedObject(
-            entity: NSEntityDescription.entityForName("Person", inManagedObjectContext:moc),
+            entity: NSEntityDescription.entityForName_workaround("Person", inManagedObjectContext:moc),
             insertIntoManagedObjectContext: moc)
         person.setValue("Fred Flintstone", forKey:"name")
         
         //
-        let petEntityDesc = NSEntityDescription.entityForName("Pet", inManagedObjectContext:moc)
+        let petEntityDesc = NSEntityDescription.entityForName_workaround("Pet", inManagedObjectContext:moc)
         
         let dino : NSManagedObject = NSManagedObject(
             entity:petEntityDesc,
