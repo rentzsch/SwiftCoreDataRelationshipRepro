@@ -3,7 +3,7 @@
 Steps to Reproduce
 ------------------
 
-1. Open project in Xcode 6b3
+1. Open project in Xcode 6b3 or 6b4.
 2. Cmd-U (Product > Test)
 
 Expected Results
